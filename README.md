@@ -1,3 +1,4 @@
+##npm run eject 之前先git add .  git commit -m
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

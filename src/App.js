@@ -1,24 +1,21 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import API from './api/api'
+import {Button} from 'antd'
 
 function App() {
+
+  let getUserInfo=async()=>{
+    let userInfo=await API.getUser({user_id:111})
+    console.log(userInfo)
+  }
+
+  getUserInfo()
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+            11
+        <Button type="primary">antd</Button>
     </div>
   );
 }
