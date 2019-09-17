@@ -13,7 +13,7 @@ export default class Profile extends Component {
                 <div className="head">
                     <Avatar icon='user' size={64}/>
                     <div className='info'>
-                        <p>eee</p>
+                        <p>李伟</p>
                         <p>
                             <Icon type='phone'/>
                             <span>8888</span>
@@ -23,23 +23,32 @@ export default class Profile extends Component {
                 </div>
                 <div className="info-data">
                     <a href="" className="guide">
-                        <span className='info-data-top'>
+                        <p className='info-data-top'>
                             <b>0.00</b>元
-                            <span>我的余额</span>
-                        </span>
+                        </p>
+                        <p className='info-data-bottom'>我的余额</p>
                     </a>
                     <a href="" className="guide">
-                        <span className='info-data-top'>
+                        <p className='info-data-top'>
                             <b>3</b>个
-                            <span>我的优惠</span>
-                        </span>
+                        </p>
+                        <p className='info-data-bottom'>我的优惠</p>
                     </a>
                     <a href="" className="guide">
-                        <span className='info-data-top'>
+                        <p className='info-data-top'>
                             <b>0</b>分
-                            <span className='info-data-bottom'>我的积分</span>
-                        </span>
+                        </p>
+                        <p className='info-data-bottom'>我的积分</p>
                     </a>
+                </div>
+                <div className="list-div">
+                    <div className="list">
+                        <Icon type='diff' className='diff'/>
+                        <span className="content">
+                            我的订单
+                            <Icon type='right'/>
+                        </span>
+                    </div>
                 </div>
             </div>
         )
