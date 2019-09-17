@@ -46,14 +46,41 @@ export default class Profile extends Component {
                         <Icon type='diff' className='diff'/>
                         <span className="content">
                             我的订单
-                            <Icon type='right'/>
+                            <Icon type='right' className='right'/>
+                        </span>
+                    </div>
+                    <div className="list">
+                        <Icon type='diff' className='diff'/>
+                        <span className="content">
+                            积分商城
+                            <Icon type='right' className='right'/>
+                        </span>
+                    </div>
+                    <div className="list">
+                        <Icon type='diff' className='diff'/>
+                        <span className="content">
+                            饿了么会员卡
+                            <Icon type='right' className='right'/>
+                        </span>
+                    </div>
+                    <div className="list">
+                        <Icon type='diff' className='diff'/>
+                        <span className="content">
+                            服务中心
+                            <Icon type='right' className='right'/>
+                        </span>
+                    </div>
+                    <div className="list">
+                        <Icon type='diff' className='diff'/>
+                        <span className="content">
+                            下载饿了么APP
+                            <Icon type='right' className='right'/>
                         </span>
                     </div>
                 </div>
             </div>
         )
     }
-
 }
 
 
