@@ -12,10 +12,10 @@ import PropTypes from 'prop-types'
 
 class Profile extends Component {
 
-   /* static propTypes={
+    static propTypes={
         userInfo: PropTypes.object.isRequired,
         saveUserInfo:PropTypes.func.isRequired
-    }*/
+    }
 
     state={
         username:'登录/注册',
