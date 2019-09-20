@@ -1,0 +1,7 @@
+export const SAVE_USERINFO='SAVE_USERINFO'
+export const SAVE_ATTRINFO='SAVE_ATTRINFO'
+export const MODIFY_USERINFO='MODIFY_USERINFO'
+
+
+
+
