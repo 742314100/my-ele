@@ -17,6 +17,14 @@ export default (state=defaultState,action={})=>{
                 ...state,
                 userInfo:action.userInfo
             }
+        case user.MODIFY_USERINFO:
+            return {
+                ...state,
+                userInfo: {
+                    ...state.userInfo,
+                    [action.key]:action.value
+                }
+            }
         default:
             return state
     }

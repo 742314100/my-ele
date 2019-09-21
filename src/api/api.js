@@ -56,6 +56,25 @@ class API extends Server {
         }
     }
 
+    async uploadImg(data){
+        try{
+            let result=await this.axios('post','//elm.cangdu.org/v1/addimg/shop',data)
+            if(result.status !== 0 && (result instanceof Object)){
+                return result || []
+            }else{
+                let err={
+                    tip: '上传图片失败',
+                    response: result,
+                    url: '//elm.cangdu.org/v1/addimg/shop',
+                }
+                return err
+            }
+        }catch(err){
+            throw err
+        }
+    }
+
+
 }
 
 export default new API()

@@ -15,7 +15,7 @@ export default class Header extends Component {
 
     render(){
         return (
-            <div onBack={this.back} title={this.props.title} className='header'>
+            <div onClick={this.back} title={this.props.title} className='header'>
                 <Icon type='left' className='left'/>
                 <span className='title'>{this.props.title}</span>
             </div>

@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {is,fromJS} from 'immutable'
 import PropTypes from 'prop-types'
+import {saveUserInfo} from '../../store/action'
 
 class Profile extends Component {
 
@@ -51,7 +52,7 @@ class Profile extends Component {
         this.initData()
     }
 
-   /* componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps){
         if(!is(fromJS(this.props.proData),fromJS(nextProps.proData)) ){
             this.initData(nextProps)
         }
@@ -59,7 +60,7 @@ class Profile extends Component {
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         return !is(fromJS(this.props),fromJS(nextProps)) || !is(fromJS(this.state),fromJS(this.nextState))
-    }*/
+    }
 
     componentDidMount() {
         if(this.props.userInfo.user_id){
@@ -75,7 +76,7 @@ class Profile extends Component {
             <div className='profile'>
                 <Header title='我的'/>
                 <div className="head">
-                    <Link to='/login' className='profile-link'>
+                    <Link to={this.props.userInfo.user_id ? '/info':'login'} className='profile-link'>
                         <Avatar icon='user' size={64}/>
                         <div className='info'>
                             <p>{this.state.username}</p>
