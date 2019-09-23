@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 import API from '../../api/api'
 import {modifyUserInfo} from '../../store/action'
 import {imgUrl} from "../../config/envconfig";
+import {Link} from 'react-router-dom'
 
 class Info extends Component {
 
@@ -35,19 +36,23 @@ class Info extends Component {
                             <Icon type='right'/>
                         </span>
                     </li>
-                    <li>
+                    <Link to='/setuser/name' className='linkto'>
+                        <li>
                         <span>用户名</span>
-                        <span className='toRight'>
+                            <span className='toRight'>
                             {this.props.userInfo.username}
-                            <Icon type='right'/>
+                                <Icon type='right'/>
                         </span>
-                    </li>
-                    <li>
-                        <span>收货地址</span>
-                        <span className='toRight'>
-                            <Icon type='right'/>
-                        </span>
-                    </li>
+                        </li>
+                    </Link>
+                    <Link to='/setuser/address' className='linkto'>
+                        <li>
+                            <span>收货地址</span>
+                                <span className='toRight'>
+                                <Icon type='right'/>
+                            </span>
+                        </li>
+                    </Link>
                     <li className='bggay'>
                         账号绑定
                     </li>

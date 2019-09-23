@@ -74,6 +74,25 @@ class API extends Server {
         }
     }
 
+    async searchPois(data){
+        console.log(data)
+        console.log(getUrlConcat(data))
+        try{
+            let result = await this.axios('get', '/v1/pois/' + getUrlConcat(data));
+            if(result){
+                return result;
+            }else{
+                let err = {
+                    tip: '搜索地点失败',
+                    response: result,
+                    url: '//elm.cangdu.org/v1/carts/addresses',
+                }
+                throw err;
+            }
+        }catch(err){
+            throw err;
+        }
+    }
 
 }
 
