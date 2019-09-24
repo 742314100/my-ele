@@ -25,6 +25,11 @@ export default (state=defaultState,action={})=>{
                     [action.key]:action.value
                 }
             }
+        case user.SAVE_ATTRINFO:
+            return {
+                ...state,
+                [action.datatype]:action.value
+            }
         default:
             return state
     }

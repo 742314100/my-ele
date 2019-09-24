@@ -7,11 +7,12 @@ export default class Header extends Component {
 
     static propTypes={
         title:PropTypes.string.isRequired,
-        rightBtn:PropTypes.string
+        rightBtn:PropTypes.string,
+        goBack:PropTypes.func
     }
 
     back=()=>{
-        console.log('back')
+       this.props.goBack()
     }
 
     render(){

@@ -15,7 +15,6 @@ class Info extends Component {
             let formdata=new FormData()
             formdata.append('file',event.target.files[0])
             let result = await API.uploadImg(formdata)
-            console.log(result)
             this.props.modifyUserInfo(imgUrl+result.image_path)
         }catch(err){
             console.log(err)
@@ -87,7 +86,6 @@ class Info extends Component {
 }
 
 const mapStateToProps=(state)=>{
-    console.log(state)
     return {
         userInfo:state.userInfo
     }
