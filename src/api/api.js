@@ -94,6 +94,24 @@ class API extends Server {
         }
     }
 
+    async getAddress(id){
+        try{
+            let result=await this.axios('get','/v1/users/'+id+'/addresses')
+            if(result){
+                return result
+            }else{
+                let err={
+                    tip:'获取地址失败',
+                    response:result,
+                    url:'//elm.cangdu.org/v1/carts/addresses'
+                }
+                throw err;
+            }
+        }catch(err){
+            throw err
+        }
+    }
+
 }
 
 export default new API()

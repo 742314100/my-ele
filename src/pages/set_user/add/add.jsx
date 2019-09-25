@@ -45,12 +45,27 @@ class Add extends Component {
         hasAddressList.push({
             mesthree:this.state.detailAddress,
             telenum:this.state.tel,
-            address:this.props.userInfo.addressName,
+            address:this.props.addressName,
             standbytelenum:this.state.phone,
             message:this.state.name
         })
         this.props.saveAttrInfo('hasAddressList',hasAddressList)
         this.props.history.push('/setuser/address')
+    }
+
+    saveMessage=()=>{
+        this.props.saveAttrInfo('temMessage',this.state.name)
+    }
+
+    componentDidMount() {
+        console.log(this.props.hasAddressList)
+        if(this.props.match.params.type === 'fromadd'){
+            this.props.saveAttrInfo('addressName','')
+        }else{
+            this.setState({
+                name:this.props.temMessage
+            })
+        }
     }
 
     render() {
@@ -60,7 +75,7 @@ class Add extends Component {
                     <li>
                         <input type="text" placeholder='请输入你的姓名' value={this.state.name} onChange={this.handleName}/>
                     </li>
-                    <Link to='/setuser/add_detail'>
+                    <Link to='/setuser/add_detail' onClick={this.saveMessage}>
                         <li>
                             <input type="text" placeholder='小区/写字楼学校等' value={this.props.addressName} readOnly='readonly'/>
                         </li>
@@ -88,7 +103,9 @@ class Add extends Component {
 const mapStateToProps=(state)=>{
     return {
         userInfo:state.userInfo,
-        addressName:state.addressName
+        addressName:state.addressName,
+        hasAddressList:state.hasAddressList,
+        temMessage:state.temMessage
     }
 }
 
