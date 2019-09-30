@@ -22,6 +22,14 @@ class Address extends Component {
         this.props.saveAttrInfo('addressList',result)
     }
 
+    cleanThis=(index)=>{
+        let hasAddressList=[
+            ...this.props.hasAddressList.slice(0,index),
+            ...this.props.hasAddressList.slice(index+1)
+        ]
+        this.props.saveAttrInfo('hasAddressList',hasAddressList)
+    }
+
     componentDidMount() {
         this.getAddress()
         console.log(this.props.hasAddressList)
@@ -48,6 +56,7 @@ class Address extends Component {
                                                     <span>,{item.standbytelenum}</span>
                                             }
                                         </span>
+                                        <Icon type='close' className='close' onClick={this.cleanThis.bind(this,index)}/>
                                     </p>
                                 </li>
                             )

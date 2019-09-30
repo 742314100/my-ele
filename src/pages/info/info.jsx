@@ -21,11 +21,15 @@ class Info extends Component {
         }
     }
 
+    goBack=()=>{
+        this.props.history.push('./profile')
+    }
+
     render() {
 
         return (
             <div className='info'>
-                <Header title='账户信息'/>
+                <Header title='账户信息'  goBack={this.goBack}/>
                 <ul>
                     <li>
                         <span>头像</span>

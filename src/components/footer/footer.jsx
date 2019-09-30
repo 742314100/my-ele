@@ -1,15 +1,17 @@
 import React,{Component} from 'react'
 import {Icon} from 'antd'
 import './footer.less'
+import {NavLink} from 'react-router-dom'
 
 export default class Footer extends Component {
-
     render(){
         return (
             <div className='footer'>
                 <div className="sel">
-                    <Icon type='bell' className='icon'/>
-                    <p className='text'>外卖</p>
+                    <NavLink to='/msite'>
+                        <Icon type='bell' className='icon'/>
+                        <p className='text'>外卖</p>
+                    </NavLink>
                 </div>
                 <div className="sel">
                     <Icon type='search' className='icon'/>

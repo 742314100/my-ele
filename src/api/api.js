@@ -112,6 +112,60 @@ class API extends Server {
         }
     }
 
+    async cityGuess( keyword){
+        try{
+            let result = await this.axios('get', '/v1/cities?type=guess');
+            if(result){
+                return result;
+            }else{
+                let err = {
+                    tip: '城市失败',
+                    response: result,
+                    url: '//elm.cangdu.org/v1/carts/addresses',
+                }
+                throw err;
+            }
+        }catch(err){
+            throw err;
+        }
+    }
+
+    async getPoisSite(data){
+        try{
+            let result=await this.axios('get','/v2/pois/'+data)
+            if(result){
+                return result
+            }else{
+                let err={
+                    tip:'获取地点失败',
+                    response:result,
+                    url:'//elm.cangdu.org/v1/carts/addresses'
+                }
+                throw err
+            }
+        }catch(err){
+            throw err
+        }
+    }
+
+    async getFoodTypes(data){
+        try{
+            let result=await this.axios('get','/v2/index_entry'+getUrlConcat(data))
+            if(result){
+                return result
+            }else{
+                let err={
+                    tip:'获取食物种类失败',
+                    response:result,
+                    url:'//elm.cangdu.org/v1/carts/addresses'
+                }
+                throw err
+            }
+        }catch(err){
+            throw err
+        }
+    }
+
 }
 
 export default new API()

@@ -5,6 +5,8 @@ import Add from "./add/add"
 import AddDetail from "./add_detail/add_detail"
 import Header from '../../components/header/header'
 import {is,fromJS} from 'immutable'
+import {connect} from 'react-redux'
+import {saveAttrInfo} from "../../store/action"
 
 class SetUser extends Component {
 
@@ -49,6 +51,11 @@ class SetUser extends Component {
         }
     }
 
+    edit=()=>{
+        let operate=this.props.userInfo.operate==='edit'?'success':'edit'
+        this.props.saveAttrInfo('operate',operate)
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
         if(!is(fromJS(this.props.location.pathname),fromJS(nextProps.location.pathname))){
             this.initData(this.props)
@@ -66,7 +73,7 @@ class SetUser extends Component {
     render() {
         return (
             <div>
-                <Header title={this.state.title} goBack={this.goBack}/>
+                <Header title={this.state.title} goBack={this.goBack} edit={this.state.type==='address'?this.edit:null}/>
                 <Switch>
                     <Route path={`${this.props.match.path}/address`} component={Address}/>
                     <Route path={`${this.props.match.path}/add/:type`} component={Add}/>
@@ -77,4 +84,17 @@ class SetUser extends Component {
     }
 }
 
-export default SetUser
+
+const mapStateToProps=(state)=>{
+    return {
+        userInfo:state.userInfo
+    }
+}
+
+const mapDispatchToProps=(dispatch)=>{
+    return  {
+        saveAttrInfo:(attr,operate)=>dispatch(saveAttrInfo(attr,operate))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SetUser)

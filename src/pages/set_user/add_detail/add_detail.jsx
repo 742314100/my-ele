@@ -17,7 +17,8 @@ class AddDetail extends Component {
             type: 'nearby',
             keyword: this.state.inputAddress
         }
-       // let res = await API.searchPois(obj)
+        //let res = await API.searchPois(obj)
+       // console.log(res)
         let addressList=[{"name":"中关村","address":"北京市海淀区 ","latitude":39.985075,"longitude":116.31612,"geohash":"39.985075,116.31612"},{"name":"中关村[地铁站]","address":"地铁4号线大兴线","latitude":39.984244,"longitude":116.316472,"geohash":"39.984244,116.316472"},{"name":"中关村南[公交站]","address":"特4路,681路,365路,运通105路,584路,355路,614路,307路,320路,302路,夜8路,运通106路,332路,快速直达专线26路,466路,快速直达专线170路,特15路,快速直达专线127路,快速直达专线139路,快速直达专线7路,快速直达专线37路,快速直达专线126路,快速直达专线82路,快速直达专线147路","latitude":39.983804,"longitude":116.316633,"geohash":"39.983804,116.316633"},{"name":"中关村软件园","address":"北京市海淀区东北旺西路8号","latitude":40.046278,"longitude":116.28585,"geohash":"40.046278,116.28585"},{"name":"中关村大厦","address":"北京市海淀区中关村大街27号","latitude":39.977462,"longitude":116.316513,"geohash":"39.977462,116.316513"},{"name":"中关村西[公交站]","address":"982路,26路,运通106路,584路,夜8路,运通113路,740路外环,740路外公益西桥,983路,特9路外环,384路,快速直达专线37路,快速直达专线127路,快速直达专线7路,392路,快速直达专线177路,运通110路,快速直达专线200路,302路,332路,快速直达专线139路,快速直达专线147路,快速直达专线126路,740路内环,特9路内环","latitude":39.985629,"longitude":116.314176,"geohash":"39.985629,116.314176"},{"name":"中关村图书大厦","address":"北京市海淀区北四环西路68号","latitude":39.98418,"longitude":116.30448,"geohash":"39.98418,116.30448"},{"name":"中关村广场","address":"北京市海淀区中关村大街15号","latitude":39.980209,"longitude":116.314946,"geohash":"39.980209,116.314946"},{"name":"中关村森林公园","address":"北京市海淀区唐家岭","latitude":40.062338,"longitude":116.285345,"geohash":"40.062338,116.285345"},{"name":"北京市中关村中学","address":"北京市海淀区科学院南路甲14号","latitude":39.9786,"longitude":116.3265,"geohash":"39.9786,116.3265"}]
         this.props.saveAttrInfo('addressList',addressList)
 
