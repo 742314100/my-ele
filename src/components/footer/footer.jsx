@@ -19,7 +19,7 @@ export default class Footer extends Component {
                 </div>
                 <div className="sel">
                     <Icon type='hdd' className='icon'/>
-                    <p className='text'>外卖</p>
+                    <p className='text'>订单</p>
                 </div>
                 <div className="sel">
                     <Icon type='user' className='icon'/>
