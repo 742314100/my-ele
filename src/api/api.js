@@ -166,6 +166,31 @@ class API extends Server {
         }
     }
 
+    /**
+     *用途: 获取商店列表
+     * @param {*} data
+     * @memberof API
+     */
+    async getShopList( data){
+        try{
+            let result = await this.axios('get', '/shopping/restaurants/' + getUrlConcat(data));
+            if(result){
+                return result;
+            }else{
+                let err = {
+                    tip: '获取商店列表失败',
+                    response: result,
+                    url: '//elm.cangdu.org/v1/carts/addresses',
+                }
+                throw err;
+            }
+        }catch(err){
+            throw err;
+        }
+    }
+
+
+
 }
 
 export default new API()

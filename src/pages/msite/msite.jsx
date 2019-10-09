@@ -7,7 +7,10 @@ import PropTypes from 'prop-types'
 import Swiper from 'swiper'
 import "swiper/css/swiper.css";
 import {Link} from 'react-router-dom'
-
+import Footer from '../../components/footer/footer'
+import './msite.less'
+import ShopList from '../../components/shop_list/shop_list'
+import {Icon} from 'antd'
 
 class Msite extends Component {
 
@@ -18,7 +21,8 @@ class Msite extends Component {
     state={
         title:'',
         geohash: [],
-        footTypes:[]
+        footTypes:[],
+        imgBaseUrl: "https://fuss10.elemecdn.com"
     }
 
     getPoisSite=async(geohash)=>{
@@ -42,10 +46,13 @@ class Msite extends Component {
         for(let i=0,j=0;i<resLength;i+=8,j++){
             foodArr[j]=resArr.splice(0,8)
         }
-        console.log(foodArr)
+
+
+
         this.setState({
             footTypes:foodArr
         })
+
         new Swiper('.swiper-container',{
             pagination:{
                 el:'.swiper-pagination'
@@ -74,18 +81,27 @@ class Msite extends Component {
         this.getFoodTypes()
     }
 
+    getCategoryId(url){
+        let urlData = decodeURIComponent(url.split('=')[1].replace('&target_name',''));
+        if (/restaurant_category_id/gi.test(urlData)) {
+            return JSON.parse(urlData).restaurant_category_id.id
+        }else{
+            return 270
+        }
+    }
+
+
     componentDidMount() {
         this.cityGuess()
     }
 
     render() {
         return (
-            <div>
+            <div className='msite'>
                 <Header title={this.state.title} signUp={true} />
                 <div>
                     <div className="swiper-container">
                         <div className="swiper-wrapper">
-
                             {
                                 this.state.footTypes.map((foodItem,index)=>{
                                     return (
@@ -93,9 +109,9 @@ class Msite extends Component {
                                             {
                                                 foodItem.map((item,index)=>{
                                                     return (
-                                                        <Link key={index} to=''>
+                                                        <Link key={index} to={`/food/${this.state.geohash}/${this.getCategoryId(item.link)}/${item.title}`} className='link'>
                                                             <figure>
-                                                                <img src="" alt=""/>
+                                                                <img src={this.state.imgBaseUrl + item.image_url} className="img"/>
                                                                 <figcaption>
                                                                     {item.title}
                                                                 </figcaption>
@@ -109,8 +125,15 @@ class Msite extends Component {
                                 })
                             }
                         </div>
+                        <div className="swiper-pagination"></div>
                     </div>
-                </div>
+                    <div className="title">
+                        <Icon type='shop' className='shop'/>
+                        <span>附近商家</span>
+                    </div>
+                    <ShopList geohash={this.state.geohash}/>
+                <Footer />
+            </div>
             </div>
         )
 

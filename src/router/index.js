@@ -6,6 +6,7 @@ const login=asyncComponent(()=>import('../pages/login/login'))
 const info=asyncComponent(()=>import('../pages/info/info'))
 const setUser=asyncComponent(()=>import('../pages/set_user/set_user'))
 const msite=asyncComponent(()=>import('../pages/msite/msite'))
+const food=asyncComponent(()=>import('../pages/food/food'))
 
 export default class RouteConfig extends Component {
     render() {
@@ -17,6 +18,7 @@ export default class RouteConfig extends Component {
                     <Route path='/info' component={info}/>
                     <Route path='/setuser' component={setUser}/>
                     <Route path='/msite' component={msite}/>
+                    <Route path='/food/:geohash/:id/:title' component={food}/>
                     <Redirect exact from='/' to='/profile'/>
                     <Route component={profile}/>
                 </Switch>
