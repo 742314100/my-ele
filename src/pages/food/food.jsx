@@ -5,11 +5,14 @@ import './food.less'
 
 class Food extends Component {
 
+   goBack=()=>{
+       this.props.history.push('/msite')
+   }
 
     render() {
         return (
             <div className='food'>
-                <Header title='' />
+                <Header title={this.props.match.params.title} goBack={this.goBack}/>
                 <ShopList geohash={this.props.match.params.geohash.split(',')}/>
             </div>
         )
