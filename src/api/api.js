@@ -189,7 +189,41 @@ class API extends Server {
         }
     }
 
+    async shopDetail(id,data){
+        try{
+            let result=await this.axios('get','/shopping/restaurant/'+id+getUrlConcat(data))
+            if(result){
+                return result
+            }else{
+                let err={
+                    tip:'获取商店详情失败',
+                    response:result,
+                    url:'//elm.cangdu.org/v1/carts/addresses'
+                }
+                throw err
+            }
+        }catch(err){
+            throw err
+        }
+    }
 
+    async getfoodMenu(data){
+        try{
+            let result=await this.axios('get','/shopping/v2/menu'+getUrlConcat(data))
+            if(result){
+                return result
+            }else{
+                let err={
+                    tip:'获取商店详情失败',
+                    response:result,
+                    url:'//elm.cangdu.org/v1/carts/addresses'
+                }
+                throw err
+            }
+        }catch(err){
+            throw err
+        }
+    }
 
 }
 
