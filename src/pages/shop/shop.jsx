@@ -69,6 +69,8 @@ class Shop extends Component {
         let menu=await API.getfoodMenu({restaurant_id:id})
         menu=this.setNumOfMenu(menu)
         let foodList=this.setFoodList(menu)
+        console.log(menu)
+        console.log(foodList)
         this.setState({
             shopDetailData:res,
             miniMoney:res.float_minimum_order_amount,
@@ -93,6 +95,10 @@ class Shop extends Component {
             activeIndex:index,
             displayList:this.state.menuList[index].foods
         })
+    }
+
+    handleAddFoodCount=(index,type)=>{
+
     }
 
     componentDidMount() {
@@ -154,7 +160,7 @@ class Shop extends Component {
                                 {
                                     this.state.menuList.slice(this.state.activeIndex,this.state.activeIndex+1).map((item,index)=>{
                                         return (
-                                            <div>
+                                            <div key={index}>
                                                 <div className='menu-detail-header-left'>
                                                     <span className='menu-item-title'>{item.name}</span>
                                                     <span>{item.description}</span>
@@ -164,7 +170,7 @@ class Shop extends Component {
                                                         {
                                                             this.state.displayList.map((food,foodIndex)=>{
                                                                 return (
-                                                                    <li>
+                                                                    <li key={foodIndex}>
                                                                         <div className="menu-detail-list" key={foodIndex}>
                                                                             <a className="menu-detail-link" href="#/shop/foodDetail">
                                                                                 <div className="menu-food-img">
@@ -173,41 +179,47 @@ class Shop extends Component {
                                                                                 <div className="menu-food-description">
                                                                                     <h3 className="food-description-head">
                                                                                         <strong className="description-foodname">{food.name}</strong>
-                                                                                        <ul className="attributes-ul">
-                                                                                            <li className=""><p>招牌</p></li>
-                                                                                            <li className="attribute-new"><p>新</p></li>
-                                                                                        </ul>
+
                                                                                         {
                                                                                             food.attributes.length ?
                                                                                                 <ul className="attributes-ul">
-
                                                                                                     {
                                                                                                         food.attributes.map((attribute,fIndex)=>{
                                                                                                             return (
-
-                                                                                                                <li className="attribute-new"><p>新</p></li>
+                                                                                                                <li className="attribute-new" key={fIndex}>
+                                                                                                                    <p>{attribute.icon_name}</p>
+                                                                                                                </li>
                                                                                                             )
                                                                                                         })
                                                                                                     }
                                                                                                 </ul>:''
                                                                                         }
                                                                                     </h3>
-                                                                                    <p className="food-description-content">123</p>
+                                                                                    <p className="food-description-content">{food.description}</p>
                                                                                     <p className="food-description-sale-rating">
-                                                                                        <span>月售863份</span>
-                                                                                        <span>好评率14%</span>
+                                                                                        <span>月售{food.month_sales}份</span>
+                                                                                        <span>好评率{food.satisfy_rate}%</span>
                                                                                     </p>
-                                                                                    <p className="food-activity">
-                                                                                        <span>1313</span>
-                                                                                    </p>
+
+                                                                                    {
+                                                                                        food.activity&&<p className="food-activity">
+                                                                                            <span>{food.activity.image_text}</span>
+                                                                                        </p>
+                                                                                    }
                                                                                 </div>
                                                                             </a>
                                                                             <footer className="menu-detail-footer">
-                                                                                <div className="food-price"><span>¥</span><span>20</span></div>
+                                                                                <div className="food-price">
+                                                                                    <span>¥</span>
+                                                                                    <span>{food.specfoods[0].price}</span>
+                                                                                    {
+                                                                                        food.specifications.length?<span>起</span>:''
+                                                                                    }
+                                                                                </div>
                                                                                 <div className="add-del-icon">
-                                                                                    <div className="icon-wuuiconsuoxiao">-</div>
-                                                                                    <div>1</div>
-                                                                                    <div className="icon-wuuiconxiangjifangda">+</div>
+                                                                                    <div className="icon-wuuiconsuoxiao" onClick={this.handleAddFoodCount.bind(this,food.num,-1)}>-</div>
+                                                                                    <div>{this.state.foodList[food.num].qty}</div>
+                                                                                    <div className="icon-wuuiconxiangjifangda" onClick={this.handleAddFoodCount.bind(this,food.num,1)}>+</div>
                                                                                 </div>
                                                                             </footer>
                                                                         </div>
