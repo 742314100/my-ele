@@ -97,7 +97,30 @@ class Shop extends Component {
         })
     }
 
+    calculateMoney=()=>{
+        let totalPrice=0
+        this.state.foodList.forEach(item=>{
+            totalPrice+=item.qty*item.specfoods[0].price
+        })
+        this.setState({
+            totalPrice,
+            miniMoney:this.state.shopDetailData.float_minimum_order_amount-totalPrice
+        })
+    }
+
     handleAddFoodCount=(index,type)=>{
+        let foodList=this.state.foodList
+        let nextFoodQty=foodList[index].qty+type
+        if(nextFoodQty>=0){
+            foodList[index].qty+=type
+        }
+        let nextCount=this.state.count+type
+        this.setState({
+            foodList,
+            count:nextFoodQty<0?this.state.count:nextCount
+
+        })
+        this.calculateMoney()
 
     }
 
