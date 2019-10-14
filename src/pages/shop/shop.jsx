@@ -29,7 +29,7 @@ class Shop extends Component {
         foodList:[],
         animate:'cart-icon-container active-icon',
         displayList:[],
-        timer:null
+        timer:null,
     }
 
     tabChange=(str)=>{
@@ -108,6 +108,22 @@ class Shop extends Component {
         })
     }
 
+    handleShowCart=()=>{
+        this.setState({
+            isShowCart:!this.state.isShowCart
+        })
+    }
+
+    clearCart=()=>{
+        this.setState({
+            foodList:fromJS(this.state.initList).toJS(),
+            totalPrice:0,
+            count:0,
+            isShowCart:false,
+            miniMoney:20
+        })
+    }
+
     handleAddFoodCount=(index,type)=>{
         let foodList=this.state.foodList
         let nextFoodQty=foodList[index].qty+type
@@ -117,10 +133,16 @@ class Shop extends Component {
         let nextCount=this.state.count+type
         this.setState({
             foodList,
-            count:nextFoodQty<0?this.state.count:nextCount
-
+            count:nextFoodQty<0?this.state.count:nextCount,
+            animate:this.state.animate+' animate'
         })
         this.calculateMoney()
+        var timer=setTimeout(()=>{
+            this.setState({
+                animate:'cart-icon-container active-icon',
+            })
+        },200)
+        this.setState({timer})
 
     }
 
@@ -265,20 +287,64 @@ class Shop extends Component {
                         </div>
                         <div className="buy-cart-container">
                             <div className="cart-icon-num">
-                                <div className="cart-icon-container active-icon">
+                                <div className={this.state.count===0?'cart-icon-container':this.state.animate} onClick={this.handleShowCart}>
                                     <Icon type='shopping-cart' className='shopping'/>
-                                    <span className="cart-list-length">4</span>
+                                    <span className="cart-list-length">{this.state.count}</span>
                                     <div className="icon-ziyuan"></div>
                                 </div>
                                 <div className="cart-num">
-                                    <div>¥90</div>
-                                    <div>配送费¥5</div>
+                                    <div>¥{this.state.totalPrice}</div>
+                                    <div>配送费¥{this.state.shopDetailData.float_delivery_fee}</div>
                                 </div>
                             </div>
-                            <div className="gotopay gotopay-active">
-                                <div className="gotopay-button-style">去结算</div>
+                            <div className={this.state.miniMoney>0?'gotopay':'gotopay gotopay gotopay-active'}>
+                                {
+                                    this.state.miniMoney>0?<div className='gotopay-button-style'>
+                                        还差￥{this.state.miniMoney}起送
+                                    </div>:<div className="gotopay-button-style">去结算</div>
+                                }
+
                             </div>
                         </div>
+                        {
+                            this.state.isShowCart&&<div className='cart-food-list'>
+                                <header>
+                                    <h4>购物车</h4>
+                                    <div className="cart-food-clear" onClick={this.clearCart}>
+                                        <div className="icon-shanchu"></div>
+                                        <div>清空1</div>
+                                    </div>
+                                </header>
+                                <div className="cart-food-details">
+                                    <ul>
+                                        {
+                                            this.state.foodList.map((cart,index)=>{
+                                                return cart.qty===0?'':(
+                                                    <li className="cart-food-li" key={index}>
+                                                        <div className="cart-list-num">
+                                                            <p>{cart.name}</p>
+                                                            <p>{cart.specs}</p>
+                                                        </div>
+                                                        <div className="cart-list-price">
+                                                            <span>￥</span>
+                                                            <span>{cart.specfoods[0].price}</span>
+                                                        </div>
+                                                        <div className="cart-list-control">
+                                                            <div className="icon-wuuiconsuoxiao" onClick={this.handleAddFoodCount.bind(this,cart.num,-1)}>-</div>
+                                                            <div>{cart.qty}</div>
+                                                            <div className="icon-wuuiconxiangjifangda" onClick={this.handleAddFoodCount.bind(this,cart.num,1)}>+</div>
+                                                        </div>
+                                                    </li>
+                                                )
+                                            })
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+
+
+
 
                     </div>
                 }
