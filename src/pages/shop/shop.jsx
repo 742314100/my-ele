@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import {is,fromJS} from 'immutable'
 import {imgUrl} from "../../config/envconfig"
 import {getImgPath} from "../../utils/commons"
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Shop extends Component {
 
@@ -30,6 +31,16 @@ class Shop extends Component {
         animate:'cart-icon-container active-icon',
         displayList:[],
         timer:null,
+    }
+
+    FirstChild=props=>{
+        const childrenArray=React.Children.toArray(props.children)
+        return childrenArray[0] || null;
+    }
+
+    CartFirstChild=props=>{
+        const childrenArray=React.Children.toArray(props.children)
+        return childrenArray[0] || null;
     }
 
     tabChange=(str)=>{
@@ -167,187 +178,194 @@ class Shop extends Component {
                     </div>
                     <Icon type='right' className='right'/>
                 </header>
-                <div className='tab-div'>
-                    <div onClick={this.tabChange.bind(this,'food')}>
-                        <span className={`tab ${this.state.tabActive==='food'?'active':''}`}>商品</span>
-                    </div>
-                    <div onClick={this.tabChange.bind(this,'rating')}>
-                        <span className={`tab ${this.state.tabActive==='rating'?'active':''}`}>评价</span>
-                    </div>
-                </div>
 
-                {
-                    this.state.show&&<div className="food-container">
-                        <div className="menu-container">
-                            <div className='menu-left'>
-                                <ul>
+                <ReactCSSTransitionGroup
+                    component={this.FirstChild}
+                    transitionName="shop"
+                    transitionEnterTimeout={200}
+                    transitionLeaveTimeout={300}>
+                    {
+                        this.state.show&&<div className="food-container">
+                            <div className="menu-container">
+                                <div className='menu-left'>
+                                    <ul>
+                                        {
+
+                                            this.state.menuList.map((item,index)=>{
+                                                return (
+                                                    <li className={`menu-left-li ${this.state.activeIndex===index?'activity-menu':''}`}
+                                                        key={index}
+                                                        onClick={this.activeMenu.bind(this,index)}
+                                                    >
+                                                        <img src={item.icon_url?getImgPath(item.icon_url):''} alt=""/>
+                                                        <span>{item.name}</span>
+                                                    </li>
+                                                )
+                                            })
+                                        }
+
+
+                                    </ul>
+                                </div>
+                                <div className='menu-right'>
+
+
                                     {
-
-                                        this.state.menuList.map((item,index)=>{
+                                        this.state.menuList.slice(this.state.activeIndex,this.state.activeIndex+1).map((item,index)=>{
                                             return (
-                                                <li className={`menu-left-li ${this.state.activeIndex===index?'activity-menu':''}`}
-                                                    key={index}
-                                                    onClick={this.activeMenu.bind(this,index)}
-                                                >
-                                                    <img src={item.icon_url?getImgPath(item.icon_url):''} alt=""/>
-                                                    <span>{item.name}</span>
-                                                </li>
+                                                <div key={index}>
+                                                    <div className='menu-detail-header-left'>
+                                                        <span className='menu-item-title'>{item.name}</span>
+                                                        <span>{item.description}</span>
+                                                    </div>
+                                                    <div>
+                                                        <ul>
+                                                            {
+                                                                this.state.displayList.map((food,foodIndex)=>{
+                                                                    return (
+                                                                        <li key={foodIndex}>
+                                                                            <div className="menu-detail-list" key={foodIndex}>
+                                                                                <a className="menu-detail-link" href="#/shop/foodDetail">
+                                                                                    <div className="menu-food-img">
+                                                                                        <img src={imgUrl+food.image_path} />
+                                                                                    </div>
+                                                                                    <div className="menu-food-description">
+                                                                                        <h3 className="food-description-head">
+                                                                                            <strong className="description-foodname">{food.name}</strong>
+
+                                                                                            {
+                                                                                                food.attributes.length ?
+                                                                                                    <ul className="attributes-ul">
+                                                                                                        {
+                                                                                                            food.attributes.map((attribute,fIndex)=>{
+                                                                                                                return (
+                                                                                                                    <li className="attribute-new" key={fIndex}>
+                                                                                                                        <p>{attribute.icon_name}</p>
+                                                                                                                    </li>
+                                                                                                                )
+                                                                                                            })
+                                                                                                        }
+                                                                                                    </ul>:''
+                                                                                            }
+                                                                                        </h3>
+                                                                                        <p className="food-description-content">{food.description}</p>
+                                                                                        <p className="food-description-sale-rating">
+                                                                                            <span>月售{food.month_sales}份</span>
+                                                                                            <span>好评率{food.satisfy_rate}%</span>
+                                                                                        </p>
+
+                                                                                        {
+                                                                                            food.activity&&<p className="food-activity">
+                                                                                                <span>{food.activity.image_text}</span>
+                                                                                            </p>
+                                                                                        }
+                                                                                    </div>
+                                                                                </a>
+                                                                                <footer className="menu-detail-footer">
+                                                                                    <div className="food-price">
+                                                                                        <span>¥</span>
+                                                                                        <span>{food.specfoods[0].price}</span>
+                                                                                        {
+                                                                                            food.specifications.length?<span>起</span>:''
+                                                                                        }
+                                                                                    </div>
+                                                                                    <div className="add-del-icon">
+                                                                                        <div className="icon-wuuiconsuoxiao" onClick={this.handleAddFoodCount.bind(this,food.num,-1)}>-</div>
+                                                                                        <div>{this.state.foodList[food.num].qty}</div>
+                                                                                        <div className="icon-wuuiconxiangjifangda" onClick={this.handleAddFoodCount.bind(this,food.num,1)}>+</div>
+                                                                                    </div>
+                                                                                </footer>
+                                                                            </div>
+
+
+                                                                        </li>
+                                                                    )
+                                                                })
+                                                            }
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             )
                                         })
                                     }
 
 
-                                </ul>
-                            </div>
-                            <div className='menu-right'>
-
-
-                                {
-                                    this.state.menuList.slice(this.state.activeIndex,this.state.activeIndex+1).map((item,index)=>{
-                                        return (
-                                            <div key={index}>
-                                                <div className='menu-detail-header-left'>
-                                                    <span className='menu-item-title'>{item.name}</span>
-                                                    <span>{item.description}</span>
-                                                </div>
-                                                <div>
-                                                    <ul>
-                                                        {
-                                                            this.state.displayList.map((food,foodIndex)=>{
-                                                                return (
-                                                                    <li key={foodIndex}>
-                                                                        <div className="menu-detail-list" key={foodIndex}>
-                                                                            <a className="menu-detail-link" href="#/shop/foodDetail">
-                                                                                <div className="menu-food-img">
-                                                                                    <img src={imgUrl+food.image_path} />
-                                                                                </div>
-                                                                                <div className="menu-food-description">
-                                                                                    <h3 className="food-description-head">
-                                                                                        <strong className="description-foodname">{food.name}</strong>
-
-                                                                                        {
-                                                                                            food.attributes.length ?
-                                                                                                <ul className="attributes-ul">
-                                                                                                    {
-                                                                                                        food.attributes.map((attribute,fIndex)=>{
-                                                                                                            return (
-                                                                                                                <li className="attribute-new" key={fIndex}>
-                                                                                                                    <p>{attribute.icon_name}</p>
-                                                                                                                </li>
-                                                                                                            )
-                                                                                                        })
-                                                                                                    }
-                                                                                                </ul>:''
-                                                                                        }
-                                                                                    </h3>
-                                                                                    <p className="food-description-content">{food.description}</p>
-                                                                                    <p className="food-description-sale-rating">
-                                                                                        <span>月售{food.month_sales}份</span>
-                                                                                        <span>好评率{food.satisfy_rate}%</span>
-                                                                                    </p>
-
-                                                                                    {
-                                                                                        food.activity&&<p className="food-activity">
-                                                                                            <span>{food.activity.image_text}</span>
-                                                                                        </p>
-                                                                                    }
-                                                                                </div>
-                                                                            </a>
-                                                                            <footer className="menu-detail-footer">
-                                                                                <div className="food-price">
-                                                                                    <span>¥</span>
-                                                                                    <span>{food.specfoods[0].price}</span>
-                                                                                    {
-                                                                                        food.specifications.length?<span>起</span>:''
-                                                                                    }
-                                                                                </div>
-                                                                                <div className="add-del-icon">
-                                                                                    <div className="icon-wuuiconsuoxiao" onClick={this.handleAddFoodCount.bind(this,food.num,-1)}>-</div>
-                                                                                    <div>{this.state.foodList[food.num].qty}</div>
-                                                                                    <div className="icon-wuuiconxiangjifangda" onClick={this.handleAddFoodCount.bind(this,food.num,1)}>+</div>
-                                                                                </div>
-                                                                            </footer>
-                                                                        </div>
-
-
-                                                                    </li>
-                                                                )
-                                                            })
-                                                        }
-
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
-
-
-                            </div>
-                        </div>
-                        <div className="buy-cart-container">
-                            <div className="cart-icon-num">
-                                <div className={this.state.count===0?'cart-icon-container':this.state.animate} onClick={this.handleShowCart}>
-                                    <Icon type='shopping-cart' className='shopping'/>
-                                    <span className="cart-list-length">{this.state.count}</span>
-                                    <div className="icon-ziyuan"></div>
-                                </div>
-                                <div className="cart-num">
-                                    <div>¥{this.state.totalPrice}</div>
-                                    <div>配送费¥{this.state.shopDetailData.float_delivery_fee}</div>
                                 </div>
                             </div>
-                            <div className={this.state.miniMoney>0?'gotopay':'gotopay gotopay gotopay-active'}>
-                                {
-                                    this.state.miniMoney>0?<div className='gotopay-button-style'>
-                                        还差￥{this.state.miniMoney}起送
-                                    </div>:<div className="gotopay-button-style">去结算</div>
-                                }
-
-                            </div>
-                        </div>
-                        {
-                            this.state.isShowCart&&<div className='cart-food-list'>
-                                <header>
-                                    <h4>购物车</h4>
-                                    <div className="cart-food-clear" onClick={this.clearCart}>
-                                        <div className="icon-shanchu"></div>
-                                        <div>清空1</div>
+                            <div className="buy-cart-container">
+                                <div className="cart-icon-num">
+                                    <div className={this.state.count===0?'cart-icon-container':this.state.animate} onClick={this.handleShowCart}>
+                                        <Icon type='shopping-cart' className='shopping'/>
+                                        <span className="cart-list-length">{this.state.count}</span>
+                                        <div className="icon-ziyuan"></div>
                                     </div>
-                                </header>
-                                <div className="cart-food-details">
-                                    <ul>
-                                        {
-                                            this.state.foodList.map((cart,index)=>{
-                                                return cart.qty===0?'':(
-                                                    <li className="cart-food-li" key={index}>
-                                                        <div className="cart-list-num">
-                                                            <p>{cart.name}</p>
-                                                            <p>{cart.specs}</p>
-                                                        </div>
-                                                        <div className="cart-list-price">
-                                                            <span>￥</span>
-                                                            <span>{cart.specfoods[0].price}</span>
-                                                        </div>
-                                                        <div className="cart-list-control">
-                                                            <div className="icon-wuuiconsuoxiao" onClick={this.handleAddFoodCount.bind(this,cart.num,-1)}>-</div>
-                                                            <div>{cart.qty}</div>
-                                                            <div className="icon-wuuiconxiangjifangda" onClick={this.handleAddFoodCount.bind(this,cart.num,1)}>+</div>
-                                                        </div>
-                                                    </li>
-                                                )
-                                            })
-                                        }
-                                    </ul>
+                                    <div className="cart-num">
+                                        <div>¥{this.state.totalPrice}</div>
+                                        <div>配送费¥{this.state.shopDetailData.float_delivery_fee}</div>
+                                    </div>
+                                </div>
+                                <div className={this.state.miniMoney>0?'gotopay':'gotopay gotopay gotopay-active'}>
+                                    {
+                                        this.state.miniMoney>0?<div className='gotopay-button-style'>
+                                            还差￥{this.state.miniMoney}起送
+                                        </div>:<div className="gotopay-button-style">去结算</div>
+                                    }
+
                                 </div>
                             </div>
-                        }
+
+                            <ReactCSSTransitionGroup
+                                component={this.CartFirstChild}
+                                transitionName="cart"
+                                transitionEnterTimeout={600}
+                                transitionLeaveTimeout={300}
+                            >
+                                {
+                                    this.state.isShowCart&&<div className='cart-food-list'>
+                                        <header>
+                                            <h4>购物车</h4>
+                                            <div className="cart-food-clear" onClick={this.clearCart}>
+                                                <div className="icon-shanchu"></div>
+                                                <div>清空1</div>
+                                            </div>
+                                        </header>
+                                        <div className="cart-food-details">
+                                            <ul>
+                                                {
+                                                    this.state.foodList.map((cart,index)=>{
+                                                        return cart.qty===0?'':(
+                                                            <li className="cart-food-li" key={index}>
+                                                                <div className="cart-list-num">
+                                                                    <p>{cart.name}</p>
+                                                                    <p>{cart.specs}</p>
+                                                                </div>
+                                                                <div className="cart-list-price">
+                                                                    <span>￥</span>
+                                                                    <span>{cart.specfoods[0].price}</span>
+                                                                </div>
+                                                                <div className="cart-list-control">
+                                                                    <div className="icon-wuuiconsuoxiao" onClick={this.handleAddFoodCount.bind(this,cart.num,-1)}>-</div>
+                                                                    <div>{cart.qty}</div>
+                                                                    <div className="icon-wuuiconxiangjifangda" onClick={this.handleAddFoodCount.bind(this,cart.num,1)}>+</div>
+                                                                </div>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+
+                            </ReactCSSTransitionGroup>
+                        </div>
+                    }
 
 
+                </ReactCSSTransitionGroup>
 
 
-                    </div>
-                }
 
 
 
